@@ -4,105 +4,249 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailsActivity">
+    tools:context=".DetailsActivity"
+    android:background="@drawable/bg_photo">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="15dp"
-        android:background="#69ED80">
+        android:padding="15dp">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_back"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:clickable="true"
             app:srcCompat="@drawable/baseline_arrow_back_24" />
 
-        <ImageView
-            android:id="@+id/iv_tree"
-            android:layout_width="381dp"
-            android:layout_height="276dp"
-            android:layout_marginBottom="20dp"
-            android:src="@drawable/tree1" />
-
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cây táo"
-            android:textSize="22dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:paddingBottom="10dp"
-        />
-        <TextView
-            android:id="@+id/tv_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Chưa có quả"
-            android:textSize="22dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:paddingBottom="5dp"/>
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="5dp">
+            android:background="@drawable/bg_white"
+            android:padding="5dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp">
 
-            <ImageView
-                android:layout_width="84dp"
-                android:layout_height="74dp"
-                android:src="@drawable/temperature" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="106dp"
+                android:layout_height="106dp"
+                android:layout_gravity="left"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                app:cardBackgroundColor="@color/green_500"
+                app:cardCornerRadius="250dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    app:cardCornerRadius="250dp">
+
+                    <ImageView
+                        android:id="@+id/iv_photo"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/tree1" />
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/tv_nhietdo"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="30 độ c"
-                android:textSize="25dp"
-                android:gravity=""
-                android:textStyle="bold"
-                />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="84dp"
-                android:layout_height="74dp"
-                android:src="@drawable/img" />
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
+                android:drawablePadding="5dp"
+                android:text="Cây Chuối"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                app:layout_constraintStart_toEndOf="@+id/cardView"
+                app:layout_constraintTop_toTopOf="@+id/cardView" />
 
             <TextView
-                android:id="@+id/tv_doam"
+                android:id="@+id/tv_state"
+                style="@style/common_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
+                android:drawablePadding="5dp"
+                android:paddingTop="5dp"
+                android:text="Trạng Thái"
+                android:textColor="@color/green_500"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name"
+                app:layout_constraintStart_toEndOf="@+id/cardView"
+                tools:ignore="MissingConstraints"/>
+
+            <TextView
+                android:id="@+id/tv_description"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="60 %"
-                android:textSize="25dp"
-                android:gravity=""
-                android:textStyle="bold"
-                />
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="15dp"
+                android:drawablePadding="10dp"
+                android:gravity="center|start"
+                android:text="Chuối là tên gọi loại quả của các loài cây thuộc chi Chuối; đây được coi là một trong các loại trái cây được ăn rộng rãi nhất."
+                android:lines="10"
+                android:textSize="19sp"
+                android:maxLines="15"
+                android:minLines="1"
+                android:textColor="@color/black"
+                app:drawableStartCompat="@drawable/ic_text"
+                app:drawableTint="@color/green_500"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView"
+                app:layout_constraintVertical_bias="0.466" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            app:srcCompat="@drawable/baseline_delete_24"
-            android:layout_gravity="right"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_white">
 
+            <ProgressBar
+                android:id="@+id/pb_temperature"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="16dp"
+                android:progress="32"
+                android:progressDrawable="@drawable/track_temperature"
+                app:layout_constraintEnd_toStartOf="@+id/tv_spraying_days"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_spraying" />
+
+            <TextView
+                android:id="@+id/tv_watering"
+                style="@style/common_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="Watering times:"
+                android:textColor="@color/green_300"
+                app:layout_constraintStart_toStartOf="@+id/pb_temperature"
+                app:layout_constraintTop_toBottomOf="@+id/pb_temperature" />
+
+            <TextView
+                android:id="@+id/tv_watering_times"
+                style="@style/common_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="10 lần"
+                android:textColor="@color/green_300"
+                app:layout_constraintStart_toEndOf="@+id/tv_watering"
+                app:layout_constraintEnd_toEndOf="@+id/pb_temperature"
+                app:layout_constraintTop_toBottomOf="@+id/pb_temperature" />
+
+            <TextView
+                android:id="@+id/tv_spraying_days"
+                style="@style/small_text_style"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="16dp"
+                android:text="32 độ C"
+                android:textAlignment="center"
+                android:textColor="@color/green_300"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/pb_temperature"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/pb_temperature"
+                app:layout_constraintTop_toTopOf="@+id/pb_temperature" />
+
+            <TextView
+                android:id="@+id/tv_spraying"
+                style="@style/common_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="Temperature"
+                android:textColor="@color/green_300"
+                app:layout_constraintEnd_toEndOf="@+id/pb_temperature"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="@+id/pb_temperature"
+                app:layout_constraintTop_toBottomOf="@+id/pb_humidity" />
+
+            <TextView
+                android:id="@+id/tv_water"
+                style="@style/common_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Humidity"
+                android:textColor="@color/blue_300"
+                app:layout_constraintEnd_toEndOf="@+id/pb_humidity"
+                app:layout_constraintStart_toStartOf="@+id/pb_humidity"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/pb_humidity"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:progress="50"
+                android:progressDrawable="@drawable/track_humidity"
+                app:layout_constraintEnd_toStartOf="@+id/tv_percent_humidity"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_water" />
+
+            <TextView
+                android:id="@+id/tv_percent_humidity"
+                style="@style/small_text_style"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="16dp"
+                android:text="50 %"
+                android:textAlignment="center"
+                android:textColor="@color/blue_300"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/pb_humidity"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/pb_humidity"
+                app:layout_constraintTop_toTopOf="@+id/pb_humidity" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bt_add_plant"
+                style="@style/main_button_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/white"
+                android:padding="10dp"
+                android:text="Tưới thêm nước"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_watering_times"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 

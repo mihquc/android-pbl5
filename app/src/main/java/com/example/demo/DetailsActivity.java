@@ -22,7 +22,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         tvName = findViewById(R.id.tv_name);
         tvState = findViewById(R.id.tv_state);
-        tvNhietDo = findViewById(R.id.tv_nhietdo);
+        tvNhietDo = findViewById(R.id.tv_spraying_days);
 
         Intent receivedIntent = getIntent();
         if(receivedIntent != null){
