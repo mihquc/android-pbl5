@@ -8,13 +8,15 @@ public class Tree {
     private int imageTree;
     private String name;
     private String state;
+    private String description;
     private int temperature;
     private int humidity;
 
-    public Tree(int image, String name, String state, int temperature, int humidity) {
+    public Tree(int image, String name, String state, String description, int temperature, int humidity) {
         this.imageTree = image;
         this.name = name;
         this.state = state;
+        this.description = description;
         this.temperature = temperature;
         this.humidity = humidity;
     }
@@ -49,6 +51,14 @@ public class Tree {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getTemperature() {

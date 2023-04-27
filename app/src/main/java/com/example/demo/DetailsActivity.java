@@ -5,32 +5,46 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
+import com.example.demo.databinding.ActivityDetailsBinding;
+import com.example.demo.databinding.ActivityMainBinding;
+
 public class DetailsActivity extends AppCompatActivity {
+
+    private ActivityDetailsBinding binding;
 
     private TextView tvName;
     private TextView tvState;
 
-    private TextView tvNhietDo;
-    private TextView tvDoAm;
+    private TextView tvTemperature;
+    private TextView tvHumidity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details);
+        binding = ActivityDetailsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        tvName = findViewById(R.id.tv_name);
-        tvState = findViewById(R.id.tv_state);
-        tvNhietDo = findViewById(R.id.tv_spraying_days);
+        binding.btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         Intent receivedIntent = getIntent();
         if(receivedIntent != null){
             String data = receivedIntent.getStringExtra("name");
             String data1 = receivedIntent.getStringExtra("state");
-            tvName.setText(data);
-            tvState.setText(data1);
+            int tem = receivedIntent.getIntExtra("tem", 0);
+            int hum = receivedIntent.getIntExtra("hum", 0);
 
+            binding.tvName.setText(data);
+            binding.tvState.setText(data1);
+            binding.tvDegreesCelsius.setText(tem+" độ C");
+            binding.tvPercentHumidity.setText(hum+"%");
         }
     }
 }

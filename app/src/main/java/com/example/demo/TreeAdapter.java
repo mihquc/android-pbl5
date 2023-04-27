@@ -43,9 +43,9 @@ public class TreeAdapter extends RecyclerView.Adapter<TreeAdapter.ViewHolder> im
         if(tree == null){
             return;
         }
-        holder.image.setImageResource(treeList.get(position).getImageTree());
-        holder.tvName.setText(treeList.get(position).getName());
-        holder.tvState.setText(treeList.get(position).getState());
+        holder.image.setImageResource(tree.getImageTree());
+        holder.tvName.setText(tree.getName());
+        holder.tvState.setText(tree.getState());
         holder.btnDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

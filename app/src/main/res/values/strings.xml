@@ -2,4 +2,7 @@
     <string name="app_name">demo</string>
     <string name="action_search">Search</string>
     <string name="search">Search</string>
+    <string name="temperature">32 độ C</string>
+    <string name="humidity">50 %</string>
+    <string name="watering">10 lần</string>
 </resources>
