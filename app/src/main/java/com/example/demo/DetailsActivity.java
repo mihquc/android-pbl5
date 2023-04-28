@@ -40,11 +40,13 @@ public class DetailsActivity extends AppCompatActivity {
             String data1 = receivedIntent.getStringExtra("state");
             int tem = receivedIntent.getIntExtra("tem", 0);
             int hum = receivedIntent.getIntExtra("hum", 0);
+            int ima = receivedIntent.getIntExtra("image", 0);
 
             binding.tvName.setText(data);
             binding.tvState.setText(data1);
             binding.tvDegreesCelsius.setText(tem+" độ C");
             binding.tvPercentHumidity.setText(hum+"%");
+            binding.ivPhoto.setImageResource(ima);
         }
     }
 }

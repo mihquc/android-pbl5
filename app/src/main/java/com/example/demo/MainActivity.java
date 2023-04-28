@@ -36,14 +36,14 @@ public class MainActivity extends AppCompatActivity {
         treeAdapter = new TreeAdapter(treeList);
         binding.rcvTree.setAdapter(treeAdapter);
 
-        treeList.add(new Tree(R.drawable.tree6,"Cây táo", "Chưa có quả", 25, 50));
-        treeList.add(new Tree(R.drawable.tree2,"Cây quýt", "Chưa có hoa", 28, 40));
-        treeList.add(new Tree(R.drawable.tree2,"Cây ớt", "Đã có quả", 27, 60));
-        treeList.add(new Tree(R.drawable.tree1,"Cây mận", "Chưa có hoa", 27, 30));
-        treeList.add(new Tree(R.drawable.tree5,"Cây mận", "Chưa có hoa", 28, 50));
-        treeList.add(new Tree(R.drawable.tree1,"Cây ớt", "Đã có quả", 26, 70));
-        treeList.add(new Tree(R.drawable.tree3,"Cây cà chua", "Đã có quả", 26, 40));
-        treeList.add(new Tree(R.drawable.tree5,"Cây ổi", "Đã có quả", 25, 30));
+        treeList.add(new Tree(R.drawable.tree6,"Cây táo", "Chưa có quả", "", 25, 50));
+        treeList.add(new Tree(R.drawable.tree2,"Cây quýt", "Chưa có hoa", "", 28, 40));
+        treeList.add(new Tree(R.drawable.tree2,"Cây ớt", "Đã có quả", "", 27, 60));
+        treeList.add(new Tree(R.drawable.tree1,"Cây mận", "Chưa có hoa", "", 27, 30));
+        treeList.add(new Tree(R.drawable.tree5,"Cây mận", "Chưa có hoa", "", 28, 50));
+        treeList.add(new Tree(R.drawable.tree1,"Cây ớt", "Đã có quả", "", 26, 70));
+        treeList.add(new Tree(R.drawable.tree3,"Cây cà chua", "Đã có quả", "", 26, 40));
+        treeList.add(new Tree(R.drawable.tree5,"Cây ổi", "Đã có quả", "", 25, 30));
         treeAdapter.notifyDataSetChanged();
 
     }

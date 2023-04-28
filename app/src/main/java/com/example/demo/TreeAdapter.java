@@ -76,8 +76,8 @@ public class TreeAdapter extends RecyclerView.Adapter<TreeAdapter.ViewHolder> im
         private ImageView image;
         private TextView tvName;
         private TextView tvState;
-        private FloatingActionButton btnDetails;
-        private FloatingActionButton btnDelete;
+        private ImageView btnDetails;
+        private ImageView btnDelete;
 
 
         public ViewHolder(View view) {
