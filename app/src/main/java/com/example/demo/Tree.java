@@ -1,23 +1,27 @@
 package com.example.demo;
 
-import android.graphics.drawable.Drawable;
-import android.widget.ImageView;
+import com.google.gson.annotations.SerializedName;
 
 public class Tree {
+    @SerializedName("id")
     private int id;
-    private int imageTree;
+    @SerializedName("urlimage")
+    private String urlimage;
+    @SerializedName("name")
     private String name;
+    @SerializedName("state")
     private String state;
+    @SerializedName("description")
     private String description;
-    private int temperature;
+    @SerializedName("humidity")
     private int humidity;
 
-    public Tree(int image, String name, String state, String description, int temperature, int humidity) {
-        this.imageTree = image;
+    public Tree(int id, String image, String name, String state, String description, int humidity) {
+        this.id = id;
+        this.urlimage = image;
         this.name = name;
         this.state = state;
         this.description = description;
-        this.temperature = temperature;
         this.humidity = humidity;
     }
 
@@ -29,12 +33,12 @@ public class Tree {
         this.id = id;
     }
 
-    public int getImageTree() {
-        return imageTree;
+    public String getImageTree() {
+        return urlimage;
     }
 
-    public void setImageTree(int imageTree) {
-        this.imageTree = imageTree;
+    public void setImageTree(String imageTree) {
+        this.urlimage = imageTree;
     }
 
     public String getName() {
@@ -59,14 +63,6 @@ public class Tree {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getTemperature() {
-        return temperature;
-    }
-
-    public void setTemperature(int temperature) {
-        this.temperature = temperature;
     }
 
     public int getHumidity() {

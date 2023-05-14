@@ -15,12 +15,6 @@ public class DetailsActivity extends AppCompatActivity {
 
     private ActivityDetailsBinding binding;
 
-    private TextView tvName;
-    private TextView tvState;
-
-    private TextView tvTemperature;
-    private TextView tvHumidity;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,14 +32,13 @@ public class DetailsActivity extends AppCompatActivity {
         if(receivedIntent != null){
             String data = receivedIntent.getStringExtra("name");
             String data1 = receivedIntent.getStringExtra("state");
-            int tem = receivedIntent.getIntExtra("tem", 0);
             int hum = receivedIntent.getIntExtra("hum", 0);
             int ima = receivedIntent.getIntExtra("image", 0);
 
             binding.tvName.setText(data);
             binding.tvState.setText(data1);
-            binding.tvDegreesCelsius.setText(tem+" độ C");
             binding.tvPercentHumidity.setText(hum+"%");
+            binding.pbHumidity.setProgress(hum);
             binding.ivPhoto.setImageResource(ima);
         }
     }

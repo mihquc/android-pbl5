@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "502978712305",
+    "firebase_url": "https://mobie-pbl-default-rtdb.firebaseio.com",
+    "project_id": "mobie-pbl",
+    "storage_bucket": "mobie-pbl.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502978712305:android:138ba6d6a82bf89e868f50",
+        "android_client_info": {
+          "package_name": "com.example.demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "502978712305-069mltlostt76vpqh7amr4tvl6o8ivp9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBT099RAeB8mpfecQwEojoA0DI-0Usj_3k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "502978712305-069mltlostt76vpqh7amr4tvl6o8ivp9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
