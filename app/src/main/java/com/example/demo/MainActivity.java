@@ -63,51 +63,49 @@ public class MainActivity extends AppCompatActivity {
         binding.rcvTree.setLayoutManager(new LinearLayoutManager(this));
         binding.rcvTree.setAdapter(treeAdapter);
 
-        apiUtils = new APIUtils();
-        apiUtils.getTree().subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<List<Tree>>() {
-                    @Override
-                    public void onSuccess(@NonNull List<Tree> trees) {
-                        for (Tree tree : trees){
-                            treeList.add(tree);
-                        }
-                        treeAdapter.notifyDataSetChanged();
-                        Log.d("abc", "onSuccess");
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.d("abc", "Fail" + e.getMessage());
-                    }
-                });
-
-
-//        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("images/");
-//        storageRef.listAll()
-//                .addOnSuccessListener(new OnSuccessListener<ListResult>() {
+//        apiUtils = new APIUtils();
+//        apiUtils.getTree().subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeWith(new DisposableSingleObserver<List<Tree>>() {
 //                    @Override
-//                    public void onSuccess(ListResult listResult) {
-//                        List<String> imageUrls = new ArrayList<>();
-//                        for (StorageReference ref : listResult.getItems()) {
-//                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                                @Override
-//                                public void onSuccess(Uri uri) {
-//                                    String url = uri.toString();
-//                                    imageUrls.add(url);
-//                                    // TODO: Hiển thị danh sách ảnh trong ứng dụng Android
-//                                }
-//                            });
+//                    public void onSuccess(@NonNull List<Tree> trees) {
+//                        for (Tree tree : trees){
+//                            treeList.add(tree);
 //                        }
-//                        treeList.add(new Tree(imageUrls.get(0),"Cây táo", "Chưa có quả", "",  50));
 //                        treeAdapter.notifyDataSetChanged();
+//                        Log.d("abc", "onSuccess");
 //                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
 //
+//                    @Override
+//                    public void onError(@NonNull Throwable e) {
+//                        Log.d("abc", "Fail" + e.getMessage());
 //                    }
 //                });
+
+
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("images");
+        storageRef.listAll()
+                .addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                    @Override
+                    public void onSuccess(ListResult listResult) {
+                        for (StorageReference item : listResult.getItems()) {
+                            // Lấy URL của ảnh
+                            item.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    treeList.add(new Tree(1, uri.toString(), "ot", "co qua", "", 50));
+                                    treeAdapter.notifyDataSetChanged();
+                                }
+                            });
+                        }
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
 
 
 //        treeList.add(new Tree(R.drawable.tree1,"Cây táo", "Chưa có quả", "",  50));

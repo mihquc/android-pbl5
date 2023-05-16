@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.demo.databinding.ActivityDetailsBinding;
 import com.example.demo.databinding.ActivityMainBinding;
 
@@ -33,13 +34,13 @@ public class DetailsActivity extends AppCompatActivity {
             String data = receivedIntent.getStringExtra("name");
             String data1 = receivedIntent.getStringExtra("state");
             int hum = receivedIntent.getIntExtra("hum", 0);
-            int ima = receivedIntent.getIntExtra("image", 0);
+            String ima = receivedIntent.getStringExtra("image");
 
             binding.tvName.setText(data);
             binding.tvState.setText(data1);
             binding.tvPercentHumidity.setText(hum+"%");
             binding.pbHumidity.setProgress(hum);
-            binding.ivPhoto.setImageResource(ima);
+            Glide.with(this).load(ima).into(binding.ivPhoto);
         }
     }
 }
