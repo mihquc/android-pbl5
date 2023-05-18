@@ -82,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onSuccess(AuthResult authResult) {
                         progressDialog.setMessage("Checking user...");
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        progressDialog.dismiss();
                         finish();
 
                     }

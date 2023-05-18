@@ -7,7 +7,7 @@
     android:elevation="8dp"
     app:cardElevation="10dp"
     app:cardCornerRadius="15dp"
-    android:paddingBottom="7dp"
+    android:paddingBottom="10dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@color/white"
-        android:padding="10dp">
+        android:padding="8dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"

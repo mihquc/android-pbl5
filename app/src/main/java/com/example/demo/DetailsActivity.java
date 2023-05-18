@@ -1,22 +1,23 @@
 package com.example.demo;
 
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import android.content.Intent;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
+import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.demo.databinding.ActivityDetailsBinding;
-import com.example.demo.databinding.ActivityMainBinding;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.Socket;
 import java.net.URL;
@@ -30,6 +31,7 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +50,43 @@ public class DetailsActivity extends AppCompatActivity {
             binding.tvName.setText(data);
             binding.tvState.setText(data1);
             Glide.with(this).load(ima).into(binding.ivPhoto);
+
+            binding.ivPhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ViewGroup.LayoutParams layoutParams = binding.ivPhoto.getLayoutParams();
+                    int originalWidth = layoutParams.width;
+                    int originalHeight = layoutParams.height;
+
+                    int enlargedWidth = (int) (originalWidth * 1.5);
+                    int enlargedHeight = (int) (originalHeight * 1.5);
+
+                    // Phóng to hình ảnh khi nhấn vào
+                    layoutParams.width = enlargedWidth;
+                    layoutParams.height = enlargedHeight;
+                    binding.ivPhoto.setLayoutParams(layoutParams);
+                }
+            });
+            binding.ivPhoto.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    // Kiểm tra khi người dùng ấn ra ngoài ImageView
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                    ViewGroup.LayoutParams layoutParams = binding.ivPhoto.getLayoutParams();
+                    int originalWidth = layoutParams.width;
+                    int originalHeight = layoutParams.height;
+
+                    int shrunkWidth = (int) (originalWidth / 1.5);
+                    int shrunkHeight = (int) (originalHeight / 1.5);
+
+                    // Trở về kích thước ban đầu
+                    layoutParams.width = shrunkWidth;
+                    layoutParams.height = shrunkHeight;
+                    binding.ivPhoto.setLayoutParams(layoutParams);
+                }
+                return true;
+                }
+            });
         }
 
         binding.btnWatering.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +161,7 @@ public class DetailsActivity extends AppCompatActivity {
                     String sensorValue = result.replace("Moisture Level:", "").trim();
                     int humidity = Integer.parseInt(sensorValue);
                     double humidity1 = 100 - (humidity*100/1024);
-                    binding.tvPercentHumidity.setText(humidity1 + "%");
+                    binding.tvPercentHumidity.setText((int) Math.round(humidity1) + "%");
                     binding.pbHumidity.setProgress((int) Math.round(humidity1));
                 }
             }

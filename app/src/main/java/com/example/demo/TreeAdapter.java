@@ -30,9 +30,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TreeAdapter extends RecyclerView.Adapter<TreeAdapter.ViewHolder> implements Filterable {
-    private ArrayList<Tree> treeList;
-    private ArrayList<Tree> treeListOld;
+public class TreeAdapter extends RecyclerView.Adapter<TreeAdapter.ViewHolder> implements Filterable{
+    public ArrayList<Tree> treeList;
+    public ArrayList<Tree> treeListOld;
+    private FilterTree filter;
     private static final int REQ_CODE = 122;
 
     public TreeAdapter(ArrayList<Tree> treeList) {
@@ -117,32 +118,9 @@ public class TreeAdapter extends RecyclerView.Adapter<TreeAdapter.ViewHolder> im
 
     @Override
     public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                String strSearch = constraint.toString();
-                if(strSearch.isEmpty()){
-                    treeList = treeListOld;
-                }else {
-                    ArrayList<Tree> list = new ArrayList<>();
-                    for(Tree tree : treeListOld){
-                        if(tree.getName().toLowerCase().contains(strSearch.toLowerCase())){
-                            list.add(tree);
-                        }
-                    }
-                    treeList = list;
-                }
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = treeList;
-
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                treeList = (ArrayList<Tree>) results.values;
-                notifyDataSetChanged();
-            }
-        };
+        if (filter == null){
+            filter = new FilterTree(treeListOld, this);
+        }
+        return filter;
     }
 }

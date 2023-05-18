@@ -13,6 +13,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -63,24 +65,31 @@ public class MainActivity extends AppCompatActivity {
         binding.rcvTree.setLayoutManager(new LinearLayoutManager(this));
         binding.rcvTree.setAdapter(treeAdapter);
 
-//        apiUtils = new APIUtils();
-//        apiUtils.getTree().subscribeOn(Schedulers.newThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeWith(new DisposableSingleObserver<List<Tree>>() {
-//                    @Override
-//                    public void onSuccess(@NonNull List<Tree> trees) {
-//                        for (Tree tree : trees){
-//                            treeList.add(tree);
-//                        }
-//                        treeAdapter.notifyDataSetChanged();
-//                        Log.d("abc", "onSuccess");
-//                    }
-//
-//                    @Override
-//                    public void onError(@NonNull Throwable e) {
-//                        Log.d("abc", "Fail" + e.getMessage());
-//                    }
-//                });
+        binding.toolbar.etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    binding.toolbar.btSearch.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            treeAdapter.getFilter().filter(s);
+                        }
+                    });
+                } catch (Exception e){
+                Log.d("TAG", "onTextChanged: "+e.getMessage());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
         StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("images");
@@ -93,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                             item.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    treeList.add(new Tree(1, uri.toString(), "ot", "co qua", "", 50));
+                                    treeList.add(new Tree(1, uri.toString(), "Ớt", "Có quả", "", 50));
                                     treeAdapter.notifyDataSetChanged();
                                 }
                             });
@@ -119,30 +128,31 @@ public class MainActivity extends AppCompatActivity {
 //        treeAdapter.notifyDataSetChanged();
 
     }
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.main_menu, menu);
+//
+//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//        searchView.setMaxWidth(Integer.MAX_VALUE);
+//
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                treeAdapter.getFilter().filter(newText);
+//                return false;
+//            }
+//        });
+//
+//           return true;
+//    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setMaxWidth(Integer.MAX_VALUE);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                treeAdapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-
-        return true;
-    }
 }
