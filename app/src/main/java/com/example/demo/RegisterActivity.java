@@ -123,7 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
         hashMap.put("email", email);
         hashMap.put("name", name);
         hashMap.put("password", password);
-        //hashMap.put("profileImage", ""); //add empty, will do later
+        hashMap.put("profileImage", ""); //add empty, will do later
         //hashMap.put("userType", "user"); //possible values are user, admin: will make admin manually in firebase realtime database by changing this value
         hashMap.put("timestamp", timestamp);
 

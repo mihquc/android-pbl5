@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -24,6 +25,8 @@ import com.example.demo.API.APIUtils;
 import com.example.demo.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -46,11 +49,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
+    private FirebaseAuth firebaseAuth;
     private ActivityMainBinding binding;
     private ArrayList<Tree> treeList;
     private TreeAdapter treeAdapter;
-    private APIUtils apiUtils;
-    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,13 +61,32 @@ public class MainActivity extends AppCompatActivity {
         View viewRoot = binding.getRoot();
         setContentView(viewRoot);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        checkUser();
+
         treeList = new ArrayList<>();
         treeAdapter = new TreeAdapter(treeList);
 
         binding.rcvTree.setLayoutManager(new LinearLayoutManager(this));
         binding.rcvTree.setAdapter(treeAdapter);
 
-        binding.toolbar.etSearch.addTextChangedListener(new TextWatcher() {
+        binding.profileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.ibLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseAuth.signOut();
+                checkUser();
+            }
+        });
+
+        binding.edSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -74,12 +95,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 try {
-                    binding.toolbar.btSearch.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            treeAdapter.getFilter().filter(s);
-                        }
-                    });
+                    treeAdapter.getFilter().filter(s);
                 } catch (Exception e){
                 Log.d("TAG", "onTextChanged: "+e.getMessage());
                 }
@@ -115,44 +131,19 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-
-
-//        treeList.add(new Tree(R.drawable.tree1,"Cây táo", "Chưa có quả", "",  50));
-//        treeList.add(new Tree(R.drawable.tree2,"Cây quýt", "Chưa có hoa", "",  40));
-//        treeList.add(new Tree(R.drawable.tree3,"Cây ớt", "Đã có quả", "",  60));
-//        treeList.add(new Tree(R.drawable.tree1,"Cây mận", "Chưa có hoa", "", 27, 30));
-//        treeList.add(new Tree(R.drawable.tree5,"Cây mận", "Chưa có hoa", "", 28, 50));
-//        treeList.add(new Tree(R.drawable.tree1,"Cây ớt", "Đã có quả", "", 26, 70));
-//        treeList.add(new Tree(R.drawable.tree3,"Cây cà chua", "Đã có quả", "", 26, 40));
-//        treeList.add(new Tree(R.drawable.tree5,"Cây ổi", "Đã có quả", "", 25, 30));
-//        treeAdapter.notifyDataSetChanged();
-
     }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.main_menu, menu);
-//
-//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-//        searchView.setMaxWidth(Integer.MAX_VALUE);
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                treeAdapter.getFilter().filter(newText);
-//                return false;
-//            }
-//        });
-//
-//           return true;
-//    }
+
+    private void checkUser() {
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if(firebaseUser == null){
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
+        else {
+            String email = firebaseUser.getEmail();
+
+            binding.tvSubtitle.setText(email);
+        }
+    }
 
 }

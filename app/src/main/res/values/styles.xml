@@ -43,5 +43,9 @@
     <style name="MyPopupMenuStyle" parent="@style/Widget.MaterialComponents.PopupMenu">
         <item name="android:background">@color/green_500</item>
     </style>
+    <style name="styleRoundeCornersImage">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20%</item>
+    </style>
 
 </resources>

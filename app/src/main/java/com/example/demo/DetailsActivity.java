@@ -2,15 +2,15 @@ package com.example.demo;
 
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.demo.databinding.ActivityDetailsBinding;
@@ -25,6 +25,7 @@ import java.net.URL;
 public class DetailsActivity extends AppCompatActivity {
     private ActivityDetailsBinding binding;
     private static final String ESP8266_IP_ADDRESS = "192.168.1.102";
+    private boolean isWatering = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,17 @@ public class DetailsActivity extends AppCompatActivity {
         binding = ActivityDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", DetailsActivity.MODE_PRIVATE);
+        int Count = sharedPreferences.getInt("Count", 0);
+        binding.tvWateringTimes.setText(String.valueOf(Count)+" lần");
+        long lastWateringTime = sharedPreferences.getLong("lastWateringTime", 0);
+        long currentTime = System.currentTimeMillis();
+        long oneDayInMillis = 24 * 60 * 60 * 1000; // Một ngày có 24 giờ, 60 phút, 60 giây, 1000 mili giây
+        if (currentTime - lastWateringTime >= oneDayInMillis) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt("Count", 0);
+            editor.apply();
+        }
 
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,40 +63,15 @@ public class DetailsActivity extends AppCompatActivity {
             binding.tvState.setText(data1);
             Glide.with(this).load(ima).into(binding.ivPhoto);
 
-            binding.ivPhoto.setOnClickListener(new View.OnClickListener() {
+            binding.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ViewGroup.LayoutParams layoutParams = binding.ivPhoto.getLayoutParams();
-                    int originalWidth = layoutParams.width;
-                    int originalHeight = layoutParams.height;
-
-                    int enlargedWidth = (int) (originalWidth * 1.5);
-                    int enlargedHeight = (int) (originalHeight * 1.5);
-
-                    // Phóng to hình ảnh khi nhấn vào
-                    layoutParams.width = enlargedWidth;
-                    layoutParams.height = enlargedHeight;
-                    binding.ivPhoto.setLayoutParams(layoutParams);
-                }
-            });
-            binding.ivPhoto.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    // Kiểm tra khi người dùng ấn ra ngoài ImageView
-                    if (event.getAction() == MotionEvent.ACTION_UP) {
-                    ViewGroup.LayoutParams layoutParams = binding.ivPhoto.getLayoutParams();
-                    int originalWidth = layoutParams.width;
-                    int originalHeight = layoutParams.height;
-
-                    int shrunkWidth = (int) (originalWidth / 1.5);
-                    int shrunkHeight = (int) (originalHeight / 1.5);
-
-                    // Trở về kích thước ban đầu
-                    layoutParams.width = shrunkWidth;
-                    layoutParams.height = shrunkHeight;
-                    binding.ivPhoto.setLayoutParams(layoutParams);
-                }
-                return true;
+//                    ImageViewerActivity imageViewerActivity = new ImageViewerActivity(DetailsActivity.this);
+//                    imageViewerActivity.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                    imageViewerActivity.show();
+                    Intent intent = new Intent(v.getContext(), ImageViewerActivity.class);
+                    intent.putExtra("image",ima);
+                    startActivity(intent);
                 }
             });
         }
@@ -92,13 +79,25 @@ public class DetailsActivity extends AppCompatActivity {
         binding.btnWatering.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendRequest("/on");
+                if(!isWatering){
+                    sendRequest("/on");
+                    SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", v.getContext().MODE_PRIVATE);
+                    int Count = sharedPreferences.getInt("Count", 0);
+                    Count += 1;
+                    isWatering = true;
+                    binding.tvWateringTimes.setText(String.valueOf(Count)+" lần");
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("Count", Count);
+                    editor.putLong("lastWateringTime", System.currentTimeMillis());
+                    editor.apply();
+                }
             }
         });
         binding.btnStopWatering.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendRequest("/off");
+                isWatering = false;
             }
         });
 

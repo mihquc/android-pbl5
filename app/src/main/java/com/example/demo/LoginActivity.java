@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -53,6 +54,16 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 validateData();
+            }
+        });
+
+        binding.tvForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ForgotPassword forgotDialog = new ForgotPassword(LoginActivity.this);
+                forgotDialog.getWindow()
+                        .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                forgotDialog.show();
             }
         });
     }

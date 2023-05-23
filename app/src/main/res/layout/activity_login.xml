@@ -39,8 +39,30 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|top"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="24dp"
-                android:text="Login" />
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/dancing_script_bold"
+                android:text="Welcome to Plant care app"
+                android:textColor="@color/green_500"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/icon_app_1"
+                android:layout_marginBottom="15dp"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                style="@style/header_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="15dp"
+                android:fontFamily="@font/black_ops_one"
+                android:text="Login"
+                android:textColor="@color/green_500"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/et_email"
@@ -48,6 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_account_selector"
+                android:fontFamily="@font/allerta_stencil"
                 android:hint="E_mail"
                 android:inputType="textEmailAddress"
                 android:textColor="@drawable/text_color_list" />
@@ -58,6 +81,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_password_selector"
+                android:fontFamily="@font/allerta_stencil"
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:textColor="@drawable/text_color_list" />
@@ -68,7 +92,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="24dp"
-                android:text="Login" />
+                android:fontFamily="@font/coiny"
+                android:text="Login"
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/tv_forgot_password"
@@ -77,15 +103,17 @@
                 android:layout_gravity="start"
                 android:layout_marginTop="5dp"
                 android:paddingStart="15dp"
-                android:text="Forgot_password"/>
+                android:text="Forgot password?"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/bt_register"
                 style="@style/secondary_button_style"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:text="Register"/>
+                android:layout_marginTop="22dp"
+                android:text="Register"
+                android:fontFamily="@font/coiny"
+                android:textSize="18dp"/>
 
         </LinearLayout>
 
