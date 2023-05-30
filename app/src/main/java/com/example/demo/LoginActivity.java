@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
@@ -37,6 +39,15 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if(firebaseUser != null){
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
+        else {
+            setContentView(binding.getRoot());
+        }
+
 
         //setup progress dialog
         progressDialog = new ProgressDialog(this);
@@ -54,16 +65,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 validateData();
-            }
-        });
-
-        binding.tvForgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ForgotPassword forgotDialog = new ForgotPassword(LoginActivity.this);
-                forgotDialog.getWindow()
-                        .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                forgotDialog.show();
             }
         });
     }

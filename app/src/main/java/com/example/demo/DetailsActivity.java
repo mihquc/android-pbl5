@@ -21,10 +21,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.Socket;
 import java.net.URL;
+import java.util.Calendar;
 
 public class DetailsActivity extends AppCompatActivity {
     private ActivityDetailsBinding binding;
-    private static final String ESP8266_IP_ADDRESS = "192.168.1.102";
+    private static final String ESP8266_IP_ADDRESS = "192.168.1.11";
     private boolean isWatering = false;
 
     @Override
@@ -36,14 +37,32 @@ public class DetailsActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", DetailsActivity.MODE_PRIVATE);
         int Count = sharedPreferences.getInt("Count", 0);
         binding.tvWateringTimes.setText(String.valueOf(Count)+" lần");
-        long lastWateringTime = sharedPreferences.getLong("lastWateringTime", 0);
         long currentTime = System.currentTimeMillis();
-        long oneDayInMillis = 24 * 60 * 60 * 1000; // Một ngày có 24 giờ, 60 phút, 60 giây, 1000 mili giây
-        if (currentTime - lastWateringTime >= oneDayInMillis) {
+        long oneDayInMillis = 24 * 60 * 60 * 1000;
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0); // Đặt giờ là 0h (0 giờ)
+        calendar.set(Calendar.MINUTE, 0); // Đặt phút là 0
+        calendar.set(Calendar.SECOND, 0); // Đặt giây là 0
+        calendar.set(Calendar.MILLISECOND, 0); // Đặt mili giây là 0
+        long nextMidnightTime = calendar.getTimeInMillis() + oneDayInMillis;
+
+        if (currentTime >= nextMidnightTime) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putInt("Count", 0);
             editor.apply();
+
+            binding.tvWateringTimes.setText("0 lần");
         }
+
+//        long lastWateringTime = sharedPreferences.getLong("lastWateringTime", 0);
+//        long currentTime = System.currentTimeMillis();
+//        long oneDayInMillis = 24 * 60 * 60 * 1000; // Một ngày có 24 giờ, 60 phút, 60 giây, 1000 mili giây
+//        if (currentTime - lastWateringTime >= oneDayInMillis) {
+//            SharedPreferences.Editor editor = sharedPreferences.edit();
+//            editor.putInt("Count", 0);
+//            editor.apply();
+//            binding.tvWateringTimes.setText("0 lần");
+//        }
 
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +80,8 @@ public class DetailsActivity extends AppCompatActivity {
 
             binding.tvName.setText(data);
             binding.tvState.setText(data1);
+            binding.tvPercentHumidity.setText(hum + "%");
+            binding.pbHumidity.setProgress(hum);
             Glide.with(this).load(ima).into(binding.ivPhoto);
 
             binding.cardView.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +102,7 @@ public class DetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(!isWatering){
                     sendRequest("/on");
+
                     SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", v.getContext().MODE_PRIVATE);
                     int Count = sharedPreferences.getInt("Count", 0);
                     Count += 1;
@@ -88,7 +110,7 @@ public class DetailsActivity extends AppCompatActivity {
                     binding.tvWateringTimes.setText(String.valueOf(Count)+" lần");
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putInt("Count", Count);
-                    editor.putLong("lastWateringTime", System.currentTimeMillis());
+//                    editor.putLong("lastWateringTime", System.currentTimeMillis());
                     editor.apply();
                 }
             }

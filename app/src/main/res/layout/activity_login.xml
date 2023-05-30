@@ -96,15 +96,6 @@
                 android:text="Login"
                 android:textSize="18dp" />
 
-            <TextView
-                android:id="@+id/tv_forgot_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginTop="5dp"
-                android:paddingStart="15dp"
-                android:text="Forgot password?"/>
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/bt_register"
                 style="@style/secondary_button_style"

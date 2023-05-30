@@ -77,80 +77,13 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passTil"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/nameTil"
-            app:hintEnabled="false">
-
-            <EditText
-                android:id="@+id/passEt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_edittext01"
-                android:drawableStart="@drawable/ic_password"
-                android:drawablePadding="10dp"
-                android:layout_marginTop="10dp"
-                android:inputType="textPassword"
-                android:hint="Current password"
-                android:textColor="@color/black"
-                android:textColorHint="@color/gray1"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/newPassTil"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/passTil"
-            app:hintEnabled="false">
-
-            <EditText
-                android:id="@+id/newPassEt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_edittext01"
-                android:drawableStart="@drawable/ic_password"
-                android:drawablePadding="10dp"
-                android:layout_marginTop="10dp"
-                android:inputType="textPassword"
-                android:hint="New password"
-                android:textColor="@color/black"
-                android:textColorHint="@color/gray1"/>
-
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/confirmPassTil"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/newPassTil"
-            app:hintEnabled="false">
-
-            <EditText
-                android:id="@+id/ConfirmPassEt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_edittext01"
-                android:drawableStart="@drawable/ic_password"
-                android:drawablePadding="10dp"
-                android:layout_marginTop="10dp"
-                android:inputType="textPassword"
-                android:hint="New password"
-                android:textColor="@color/black"
-                android:textColorHint="@color/gray1"/>
-
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/updateBtn"
             style="@style/main_button_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/confirmPassTil"
+            android:layout_below="@id/nameTil"
             android:layout_marginTop="18dp"
             android:text="Update"
             android:textColor="@color/white" />

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/tree_item">
+    <item
+        android:id="@+id/bottom_add_plant"
+        android:icon="@drawable/ic_text"
+        android:title="Quoc" />
+    <item
+        android:id="@+id/bottom_my_plants"
+        android:icon="@drawable/ic_fav"
+        android:title="My Plants" />
+</menu>

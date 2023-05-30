@@ -20,4 +20,6 @@
     <color name="blue_700">#235DD3</color>
     <color name="blue_thumb">#5E93FF</color>
     <color name="gray1">#cccccc</color>
+    <color name="grey">#D5D5D5</color>
+
 </resources>

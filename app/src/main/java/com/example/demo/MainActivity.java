@@ -1,8 +1,11 @@
 package com.example.demo;
 
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,8 +28,15 @@ import com.example.demo.API.APIUtils;
 import com.example.demo.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -34,10 +44,11 @@ import com.google.firebase.storage.StorageReference;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.core.SingleObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -53,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private ArrayList<Tree> treeList;
     private TreeAdapter treeAdapter;
+    private int i=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +78,10 @@ public class MainActivity extends AppCompatActivity {
 
         treeList = new ArrayList<>();
         treeAdapter = new TreeAdapter(treeList);
+        initBottomNav();
 
-        binding.rcvTree.setLayoutManager(new LinearLayoutManager(this));
-        binding.rcvTree.setAdapter(treeAdapter);
+//        binding.rcvTree.setLayoutManager(new LinearLayoutManager(this));
+//        binding.rcvTree.setAdapter(treeAdapter);
 
         binding.profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,36 +120,68 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("images");
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String imageUrl = snapshot.child("url").getValue(String.class);
+                treeList.add(new Tree(i, imageUrl, "Cây Ớt", "Có quả", "", 37));
+                treeAdapter.notifyDataSetChanged();
+                i++;
+            }
 
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("images");
-        storageRef.listAll()
-                .addOnSuccessListener(new OnSuccessListener<ListResult>() {
-                    @Override
-                    public void onSuccess(ListResult listResult) {
-                        for (StorageReference item : listResult.getItems()) {
-                            // Lấy URL của ảnh
-                            item.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    treeList.add(new Tree(1, uri.toString(), "Ớt", "Có quả", "", 50));
-                                    treeAdapter.notifyDataSetChanged();
-                                }
-                            });
-                        }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+            }
 
-                    }
-                });
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+//        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("images");
+//        storageRef.listAll()
+//                .addOnSuccessListener(new OnSuccessListener<ListResult>() {
+//                    @Override
+//                    public void onSuccess(ListResult listResult) {
+//                        for (StorageReference item : listResult.getItems()) {
+//                            // Lấy URL của ảnh
+//                            item.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                                @Override
+//                                public void onSuccess(Uri uri) {
+//                                    treeList.add(new Tree(i, uri.toString(), "Cây Ớt", "Có quả", "", 37));
+//                                    treeAdapter.notifyDataSetChanged();
+//                                }
+//                            });
+//                            i += 1;
+//                        }
+//
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//
+//                    }
+//                });
+
     }
 
     private void checkUser() {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if(firebaseUser == null){
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         }
         else {
@@ -144,6 +189,35 @@ public class MainActivity extends AppCompatActivity {
 
             binding.tvSubtitle.setText(email);
         }
+    }
+
+    private void initBottomNav() {
+
+        binding.mainLayout.content.bottomNavView.setOnItemSelectedListener(v ->
+        {
+            switch (v.getItemId()) {
+                case R.id.bottom_my_plants:
+                        openMyPlants();
+                    break;
+                case R.id.bottom_add_plant:
+//                        openAddPlant();
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        });
+    }
+
+    private void openMyPlants() {
+        // Tạo đối tượng TreeListFragment và truyền treeAdapter vào
+        TreeListFragment treeListFragment = new TreeListFragment();
+        treeListFragment.setAdapter(treeAdapter);
+
+        // Thay thế container bằng fragment trong transaction
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, treeListFragment)
+                .commit();
     }
 
 }

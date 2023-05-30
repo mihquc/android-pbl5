@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +23,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.BlockingDeque;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -80,6 +93,48 @@ public class TreeAdapter extends RecyclerView.Adapter<TreeAdapter.ViewHolder> im
                                 Toast.makeText(v.getContext(), "Deleting...", Toast.LENGTH_SHORT).show();
                                 treeList.remove(tree);
                                 notifyDataSetChanged();
+                                String imageUrl = tree.getImageTree();
+
+                                DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("images");
+                                databaseRef.orderByChild("url").equalTo(imageUrl).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        // Duyệt qua các nút tương ứng với giá trị imageUrl
+                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                            snapshot.getRef().removeValue();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        // Xử lý lỗi nếu có
+                                    }
+                                });
+
+                                String filename = "";
+                                try {
+                                    URL url = new URL(imageUrl);
+                                    String path = url.getPath();
+                                    filename = path.substring(path.lastIndexOf('/') + 1);
+                                } catch (MalformedURLException e) {
+                                    e.printStackTrace();
+                                }
+                                String storageFilename = "images/" + filename;
+                                StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+                                StorageReference fileRef = storageRef.child(storageFilename);
+                                fileRef.delete()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d("TAG", "onSuccess: Delete");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.d("TAG", "onFailure: "+e.getMessage());
+                                            }
+                                        });
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -52,10 +52,10 @@ public class ProfileEditActivity extends AppCompatActivity {
     private Uri imageUri = null;
 
     private String name = "";
-    private String password="";
-    private String CurrentPassword="";
-    private String NewPassword="";
-    private String ConfirmPassword="";
+//    private String password="";
+//    private String CurrentPassword="";
+//    private String NewPassword="";
+//    private String ConfirmPassword="";
 
     @Override
 
@@ -106,7 +106,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                         String profileImage = ""+snapshot.child("profileImage").getValue();
                         String timestamp = ""+snapshot.child("timestamp").getValue();
                         String uid = ""+snapshot.child("uid").getValue();
-                        password = ""+snapshot.child("password").getValue();
+//                        password = ""+snapshot.child("password").getValue();
 //                        String userType = ""+snapshot.child("userType").getValue();
                         binding.nameEt.setText(name);
 
@@ -128,20 +128,21 @@ public class ProfileEditActivity extends AppCompatActivity {
 
     private void validateData(){
         name = binding.nameEt.getText().toString().trim();
-        CurrentPassword = binding.passEt.getText().toString().trim();
-        NewPassword = binding.newPassEt.getText().toString().trim();
-        ConfirmPassword = binding.ConfirmPassEt.getText().toString().trim();
-        if(TextUtils.isEmpty(name)){
+//        CurrentPassword = binding.passEt.getText().toString().trim();
+//        NewPassword = binding.newPassEt.getText().toString().trim();
+//        ConfirmPassword = binding.ConfirmPassEt.getText().toString().trim();
+        if(TextUtils.isEmpty(name)) {
             Toast.makeText(this, "Enter name...", Toast.LENGTH_SHORT).show();
-        } else if(TextUtils.isEmpty(CurrentPassword)){
-            Toast.makeText(this, "Enter current password...", Toast.LENGTH_SHORT).show();
-        } else if(TextUtils.isEmpty(NewPassword)){
-            Toast.makeText(this, "Enter new password...", Toast.LENGTH_SHORT).show();
-        } else if(TextUtils.isEmpty(ConfirmPassword)){
-            Toast.makeText(this, "Enter confirm password...", Toast.LENGTH_SHORT).show();
-        } else if(!NewPassword.equals(ConfirmPassword)){
-            Toast.makeText(this, "Password doesn't match...", Toast.LENGTH_SHORT).show();
         }
+//        } else if(TextUtils.isEmpty(CurrentPassword)){
+//            Toast.makeText(this, "Enter current password...", Toast.LENGTH_SHORT).show();
+//        } else if(TextUtils.isEmpty(NewPassword)){
+//            Toast.makeText(this, "Enter new password...", Toast.LENGTH_SHORT).show();
+//        } else if(TextUtils.isEmpty(ConfirmPassword)){
+//            Toast.makeText(this, "Enter confirm password...", Toast.LENGTH_SHORT).show();
+//        } else if(!NewPassword.equals(ConfirmPassword)){
+//            Toast.makeText(this, "Password doesn't match...", Toast.LENGTH_SHORT).show();
+//        }
         else {
             if(imageUri == null){
                 updateProfile("");
@@ -181,7 +182,7 @@ public class ProfileEditActivity extends AppCompatActivity {
     }
 
     private void updateProfile(String imageUrl){
-        if(password.equals(CurrentPassword)){
+//        if(password.equals(CurrentPassword)){
             Log.d(TAG, "updateProfile: ");
             progressDialog.setMessage("Updating user profile....");
             progressDialog.show();
@@ -189,8 +190,8 @@ public class ProfileEditActivity extends AppCompatActivity {
             FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
             HashMap<String, Object> hashMap = new HashMap<>();
-            hashMap.put("password", NewPassword);
-            firebaseUser.updatePassword(NewPassword);
+//            hashMap.put("password", NewPassword);
+//            firebaseUser.updatePassword(NewPassword);
             hashMap.put("name",""+name);
             if (imageUri != null){
                 hashMap.put("profileImage",""+imageUrl);
@@ -214,9 +215,9 @@ public class ProfileEditActivity extends AppCompatActivity {
                             Toast.makeText(ProfileEditActivity.this, "Failed to update db due to "+e.getMessage(),Toast.LENGTH_SHORT).show();
                         }
                     });
-        }else{
-            Toast.makeText(this, "Current password is not valid... ", Toast.LENGTH_SHORT).show();
-        }
+//        }else{
+//            Toast.makeText(this, "Current password is not valid... ", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     private void showImageAttachMenu(){

@@ -126,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="Watering times:"
+                android:text="Số lần tưới:"
                 android:textColor="@color/green_300"
                 app:layout_constraintStart_toStartOf="@+id/pb_humidity"
                 app:layout_constraintTop_toBottomOf="@+id/pb_humidity" />
@@ -151,7 +151,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:text="Humidity"
+                android:text="Độ ẩm đất"
                 android:textColor="@color/blue_300"
                 app:layout_constraintEnd_toEndOf="@+id/pb_humidity"
                 app:layout_constraintStart_toStartOf="@+id/pb_humidity"
@@ -171,6 +171,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_water" />
 
+
             <TextView
                 android:id="@+id/tv_percent_humidity"
                 style="@style/small_text_style"
@@ -186,8 +187,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/pb_humidity"
-                app:layout_constraintTop_toTopOf="@+id/pb_humidity" />
-
+                app:layout_constraintTop_toTopOf="@+id/pb_humidity"
+                app:layout_constraintVertical_bias="1.0" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_watering"
