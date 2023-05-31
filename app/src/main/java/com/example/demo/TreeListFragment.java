@@ -11,9 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.demo.databinding.TreeListFragmentBinding;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -26,7 +30,6 @@ import java.util.ArrayList;
 
 public class TreeListFragment extends Fragment {
     private TreeAdapter treeAdapter;
-    private ArrayList<Tree> treeList;
     private int i = 1;
     private TreeListFragmentBinding binding;
 
@@ -66,6 +69,28 @@ public class TreeListFragment extends Fragment {
 //
 //                    }
 //                });
+
+        TextView textView = rootView.findViewById(R.id.ed_search);
+        textView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    treeAdapter.getFilter().filter(s);
+                } catch (Exception e){
+                Log.d("TAG", "onTextChanged: "+e.getMessage());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         RecyclerView recyclerView = rootView.findViewById(R.id.rcv_tree);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

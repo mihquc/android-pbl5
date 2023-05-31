@@ -78,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
 
         treeList = new ArrayList<>();
         treeAdapter = new TreeAdapter(treeList);
+        TreeFragment treeFragment = new TreeFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, treeFragment)
+                .commit();
         initBottomNav();
 
 //        binding.rcvTree.setLayoutManager(new LinearLayoutManager(this));
@@ -99,26 +103,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        binding.edSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                try {
-                    treeAdapter.getFilter().filter(s);
-                } catch (Exception e){
-                Log.d("TAG", "onTextChanged: "+e.getMessage());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+//        binding.edSearch.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                try {
+//                    treeAdapter.getFilter().filter(s);
+//                } catch (Exception e){
+//                Log.d("TAG", "onTextChanged: "+e.getMessage());
+//                }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("images");
         ref.addChildEventListener(new ChildEventListener() {
@@ -200,7 +204,10 @@ public class MainActivity extends AppCompatActivity {
                         openMyPlants();
                     break;
                 case R.id.bottom_add_plant:
-//                        openAddPlant();
+                    TreeFragment treeFragment = new TreeFragment();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.container, treeFragment)
+                            .commit();
                     break;
                 default:
                     return false;

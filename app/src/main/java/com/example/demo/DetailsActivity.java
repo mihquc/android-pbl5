@@ -64,7 +64,7 @@ public class DetailsActivity extends AppCompatActivity {
 //            binding.tvWateringTimes.setText("0 lần");
 //        }
 
-        binding.btnBack.setOnClickListener(new View.OnClickListener() {
+        binding.backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
