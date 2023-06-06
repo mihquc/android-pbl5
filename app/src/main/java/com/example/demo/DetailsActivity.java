@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +17,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.Socket;
 import java.net.URL;
 import java.util.Calendar;
 
@@ -34,25 +31,26 @@ public class DetailsActivity extends AppCompatActivity {
         binding = ActivityDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", DetailsActivity.MODE_PRIVATE);
-        int Count = sharedPreferences.getInt("Count", 0);
-        binding.tvWateringTimes.setText(String.valueOf(Count)+" lần");
-        long currentTime = System.currentTimeMillis();
-        long oneDayInMillis = 24 * 60 * 60 * 1000;
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0); // Đặt giờ là 0h (0 giờ)
-        calendar.set(Calendar.MINUTE, 0); // Đặt phút là 0
-        calendar.set(Calendar.SECOND, 0); // Đặt giây là 0
-        calendar.set(Calendar.MILLISECOND, 0); // Đặt mili giây là 0
-        long nextMidnightTime = calendar.getTimeInMillis() + oneDayInMillis;
+//        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", DetailsActivity.MODE_PRIVATE);
+//        int Count = sharedPreferences.getInt("Count", 0);
+//        binding.tvWateringTimes.setText(String.valueOf(Count)+" lần");
+//        long currentTime = System.currentTimeMillis();
+//        long oneDayInMillis = 24 * 60 * 60 * 1000;
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(Calendar.HOUR_OF_DAY, 0); // Đặt giờ là 0h (0 giờ)
+//        calendar.set(Calendar.MINUTE, 0); // Đặt phút là 0
+//        calendar.set(Calendar.SECOND, 0); // Đặt giây là 0
+//        calendar.set(Calendar.MILLISECOND, 0); // Đặt mili giây là 0
+//        long nextMidnightTime = calendar.getTimeInMillis() + oneDayInMillis;
+//
+//        if (currentTime >= nextMidnightTime) {
+//            SharedPreferences.Editor editor = sharedPreferences.edit();
+//            editor.putInt("Count", 0);
+//            editor.apply();
+//
+//            binding.tvWateringTimes.setText("0 lần");
+//        }
 
-        if (currentTime >= nextMidnightTime) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt("Count", 0);
-            editor.apply();
-
-            binding.tvWateringTimes.setText("0 lần");
-        }
 
 //        long lastWateringTime = sharedPreferences.getLong("lastWateringTime", 0);
 //        long currentTime = System.currentTimeMillis();
@@ -79,7 +77,6 @@ public class DetailsActivity extends AppCompatActivity {
             String ima = receivedIntent.getStringExtra("image");
 
             binding.tvName.setText(data);
-            binding.tvState.setText(data1);
             binding.tvPercentHumidity.setText(hum + "%");
             binding.pbHumidity.setProgress(hum);
             Glide.with(this).load(ima).into(binding.ivPhoto);
@@ -103,7 +100,7 @@ public class DetailsActivity extends AppCompatActivity {
                 if(!isWatering){
                     sendRequest("/on");
 
-                    SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", v.getContext().MODE_PRIVATE);
+                    SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", v.getContext().MODE_PRIVATE);
                     int Count = sharedPreferences.getInt("Count", 0);
                     Count += 1;
                     isWatering = true;
@@ -188,4 +185,43 @@ public class DetailsActivity extends AppCompatActivity {
             }
         }
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        int Count = sharedPreferences.getInt("Count", 0);
+        binding.tvWateringTimes.setText(String.valueOf(Count) + " lần");
+
+        long currentTime = System.currentTimeMillis();
+        long oneDayInMillis = 24 * 60 * 60 * 1000;
+
+        Calendar calendar = Calendar.getInstance();
+        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        if (currentHour >= 6 && currentHour < 18) {
+            // Ban ngày
+            binding.tvDayNight.setText("Ban ngày");
+            binding.ivDayNight.setImageResource(R.drawable.baseline_wb_sunny_24);
+        } else {
+            // Ban đêm
+            binding.tvDayNight.setText("Ban đêm");
+            binding.ivDayNight.setImageResource(R.drawable.baseline_dark_mode_24);
+        }
+
+
+        calendar.set(Calendar.HOUR_OF_DAY, 4); // Đặt giờ là 0h (0 giờ)
+        calendar.set(Calendar.MINUTE, 31); // Đặt phút là 0
+        calendar.set(Calendar.SECOND, 0); // Đặt giây là 0
+        calendar.set(Calendar.MILLISECOND, 0); // Đặt mili giây là 0
+        long nextMidnightTime = calendar.getTimeInMillis() + oneDayInMillis;
+
+        if (currentTime >= nextMidnightTime) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt("Count", 0);
+            editor.apply();
+
+            binding.tvWateringTimes.setText("0 lần");
+        }
+    }
+
 }

@@ -69,7 +69,7 @@ public class TreeAdapter extends RecyclerView.Adapter<TreeAdapter.ViewHolder> im
         }
         Glide.with(holder.context).load(tree.getImageTree()).into(holder.image);
         holder.tvName.setText(tree.getName());
-        holder.tvState.setText(tree.getState());
+//        holder.tvState.setText(tree.getState());
         holder.btnDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,7 +165,7 @@ public class TreeAdapter extends RecyclerView.Adapter<TreeAdapter.ViewHolder> im
             super(view);
             image = view.findViewById(R.id.image_tree);
             tvName = view.findViewById(R.id.tv_name);
-            tvState = view.findViewById(R.id.tv_trangthai);
+//            tvState = view.findViewById(R.id.tv_trangthai);
             btnDetails = view.findViewById(R.id.btn_details);
             btnDelete = view.findViewById(R.id.btn_delete);
         }

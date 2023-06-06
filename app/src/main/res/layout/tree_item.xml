@@ -68,15 +68,15 @@
 
                 </TextView>
 
-                <TextView
-                    android:id="@+id/tv_trangthai"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Chưa có quả"
-                    android:textColor="#6F5E83"
-                    android:textSize="15dp">
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_trangthai"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Chưa có quả"-->
+<!--                    android:textColor="#6F5E83"-->
+<!--                    android:textSize="15dp">-->
 
-                </TextView>
+<!--                </TextView>-->
 
             </LinearLayout>
 

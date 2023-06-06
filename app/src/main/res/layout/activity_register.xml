@@ -5,26 +5,35 @@
     android:id="@+id/activity_register"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_photo"
     tools:context=".RegisterActivity">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_back"
+    <RelativeLayout
+        android:id="@+id/toolbarRl"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/green_500"
-        android:clickable="true"
-        android:src="@drawable/baseline_arrow_back_24" />
+        android:layout_height="?actionBarSize"
+        android:background="@drawable/shape_toolbar02">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg_photo" />
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/baseline_arrow_back_24" />
+
+        <TextView
+            android:id="@+id/titleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Register"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -53,52 +62,52 @@
 
             <EditText
                 android:id="@+id/et_username"
-                android:textColor="@drawable/text_color_list"
                 style="@style/common_edit_text_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_account_selector"
                 android:hint="Name"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColor="@drawable/text_color_list" />
 
             <EditText
                 android:id="@+id/et_email"
-                android:textColor="@drawable/text_color_list"
                 style="@style/common_edit_text_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_email_selector"
                 android:hint="E_mail"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textColor="@drawable/text_color_list" />
 
             <EditText
-                android:layout_marginTop="10dp"
                 android:id="@+id/et_password"
                 style="@style/common_edit_text_style"
-                android:textColor="@drawable/text_color_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:drawableStart="@drawable/ic_password_selector"
                 android:hint="Password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColor="@drawable/text_color_list" />
 
             <EditText
                 android:id="@+id/et_repeat_password"
                 style="@style/common_edit_text_style"
-                android:textColor="@drawable/text_color_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_password_selector"
                 android:hint="Confirm password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColor="@drawable/text_color_list" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/bt_register"
                 style="@style/main_button_style"
-                android:layout_marginTop="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="Register"/>
+                android:layout_marginTop="30dp"
+                android:text="Register" />
 
         </LinearLayout>
 

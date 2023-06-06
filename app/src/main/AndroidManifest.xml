@@ -24,12 +24,6 @@
             android:name=".TreeListFragment"
             android:exported="false" />
         <activity
-            android:name=".ResetPassword"
-            android:exported="false" />
-        <activity
-            android:name=".ForgotPassword"
-            android:exported="false" />
-        <activity
             android:name=".ProfileEditActivity"
             android:exported="false" />
         <activity

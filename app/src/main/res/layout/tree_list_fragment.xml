@@ -53,21 +53,21 @@
             android:layout_marginEnd="10dp"/>
     </RelativeLayout>
 
-    <EditText
-        android:id="@+id/ed_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:background="@drawable/shape_botron"
-        android:drawableStart="@drawable/baseline_search_24"
-        android:hint="Search..."
-        android:padding="10dp"
-        android:textColorHint="@color/gray1"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarRl"
-        tools:layout_editor_absoluteX="5dp"
-        tools:ignore="MissingConstraints" />
+<!--    <EditText-->
+<!--        android:id="@+id/ed_search"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:layout_marginStart="5dp"-->
+<!--        android:layout_marginEnd="5dp"-->
+<!--        android:background="@drawable/shape_botron"-->
+<!--        android:drawableStart="@drawable/baseline_search_24"-->
+<!--        android:hint="Search..."-->
+<!--        android:padding="10dp"-->
+<!--        android:textColorHint="@color/gray1"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/toolbarRl"-->
+<!--        tools:layout_editor_absoluteX="5dp"-->
+<!--        tools:ignore="MissingConstraints" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_tree"
@@ -80,8 +80,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-
-        app:layout_constraintTop_toBottomOf="@+id/ed_search"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarRl"
         app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/tree_item">
 

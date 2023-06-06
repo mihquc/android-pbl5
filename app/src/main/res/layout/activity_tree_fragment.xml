@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="15dp"
-        android:layout_marginTop="57dp"
+        android:layout_marginTop="40dp"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
 
@@ -21,8 +21,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/bg_white"
             android:padding="5dp">
 
@@ -49,7 +49,7 @@
                         android:layout_width="121dp"
                         android:layout_height="121dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/tree1" />
+                        android:src="@color/white" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -62,26 +62,27 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="10dp"
                 android:drawablePadding="5dp"
-                android:text="Cây"
+                android:text="Cây Ớt"
                 android:textColor="@color/black"
                 android:textSize="25sp"
+                app:layout_constraintBottom_toTopOf="@+id/tv_description"
                 app:layout_constraintStart_toEndOf="@+id/cardView"
                 app:layout_constraintTop_toTopOf="@+id/cardView" />
 
-            <TextView
-                android:id="@+id/tv_state"
-                style="@style/common_text_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginVertical="10dp"
-                android:drawablePadding="5dp"
-                android:paddingTop="5dp"
-                android:text="Trạng Thái"
-                android:textColor="@color/green_500"
-                app:layout_constraintStart_toEndOf="@+id/cardView"
-                app:layout_constraintTop_toBottomOf="@+id/tv_name"
-                tools:ignore="MissingConstraints" />
+<!--            <TextView-->
+<!--                android:id="@+id/tv_state"-->
+<!--                style="@style/common_text_style"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="10dp"-->
+<!--                android:layout_marginVertical="10dp"-->
+<!--                android:drawablePadding="5dp"-->
+<!--                android:paddingTop="5dp"-->
+<!--                android:text="Trạng Thái"-->
+<!--                android:textColor="@color/green_500"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/cardView"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/tv_name"-->
+<!--                tools:ignore="MissingConstraints" />-->
 
             <TextView
                 android:id="@+id/tv_description"
@@ -110,45 +111,57 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:background="@drawable/bg_white">
-
 
             <TextView
                 android:id="@+id/tv_watering"
                 style="@style/common_text_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp"
                 android:text="Số lần tưới:"
                 android:textColor="@color/green_300"
-                app:layout_constraintStart_toStartOf="@+id/pb_humidity"
-                app:layout_constraintTop_toBottomOf="@+id/pb_humidity" />
+                app:layout_constraintStart_toEndOf="@+id/iv_day_night"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_watering_times"
                 style="@style/common_text_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/watering"
                 android:textColor="@color/green_300"
-                app:layout_constraintEnd_toEndOf="@+id/pb_humidity"
                 app:layout_constraintStart_toEndOf="@+id/tv_watering"
-                app:layout_constraintTop_toBottomOf="@+id/pb_humidity" />
-
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <TextView
                 android:id="@+id/tv_water"
-                style="@style/common_text_style"
+                style="@style/small_text_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="20dp"
                 android:text="Độ ẩm đất"
                 android:textColor="@color/blue_300"
                 app:layout_constraintEnd_toEndOf="@+id/pb_humidity"
                 app:layout_constraintStart_toStartOf="@+id/pb_humidity"
+                app:layout_constraintTop_toBottomOf="@+id/tv_temperature" />
+
+            <TextView
+                android:id="@+id/tv_day_night"
+                style="@style/common_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="20dp"
+                android:text="Ban Đêm"
+                android:textColor="@color/green_300"
+                app:layout_constraintStart_toStartOf="@+id/pb_humidity"
+                app:layout_constraintTop_toBottomOf="@+id/pb_humidity"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ProgressBar
@@ -165,6 +178,57 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_water" />
 
+            <ImageView
+                android:id="@+id/iv_day_night"
+                android:layout_width="26dp"
+                android:layout_height="27dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/baseline_dark_mode_24"
+                app:layout_constraintEnd_toStartOf="@+id/tv_watering"
+                app:layout_constraintStart_toEndOf="@+id/tv_day_night"
+                app:layout_constraintTop_toTopOf="@+id/tv_day_night" />
+
+            <TextView
+                android:id="@+id/tv_temperature"
+                style="@style/common_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="27°C"
+                android:textColor="@color/blue_300"
+                app:layout_constraintStart_toStartOf="@+id/tv_day_night"
+                app:layout_constraintTop_toBottomOf="@+id/tv_day_night" />
+
+            <ImageView
+                android:id="@+id/iv_temperature"
+                android:layout_width="26dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/baseline_device_thermostat_24"
+                app:layout_constraintStart_toEndOf="@+id/tv_temperature"
+                app:layout_constraintTop_toBottomOf="@+id/tv_day_night" />
+
+            <TextView
+                android:id="@+id/tv_humidity"
+                style="@style/common_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="29dp"
+                android:layout_marginTop="20dp"
+                android:text="Độ ẩm không khí 60%"
+                android:textColor="@color/blue_300"
+                app:layout_constraintStart_toEndOf="@+id/iv_temperature"
+                app:layout_constraintTop_toBottomOf="@+id/tv_watering" />
+
+            <ImageView
+                android:id="@+id/iv_humidity"
+                android:layout_width="26dp"
+                android:layout_height="27dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/baseline_water_drop_24"
+                app:layout_constraintStart_toEndOf="@+id/tv_humidity"
+                app:layout_constraintTop_toBottomOf="@+id/tv_watering" />
 
             <TextView
                 android:id="@+id/tv_percent_humidity"
@@ -199,7 +263,7 @@
                 android:text="Tưới thêm nước"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_watering" />
+                app:layout_constraintTop_toBottomOf="@+id/pb_humidity" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_stop_watering"
@@ -216,7 +280,7 @@
                 android:text="Ngưng tưới nước"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_watering_times" />
+                app:layout_constraintTop_toBottomOf="@+id/pb_humidity" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

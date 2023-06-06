@@ -4,8 +4,8 @@
     tools:showIn="@layout/tree_item">
     <item
         android:id="@+id/bottom_add_plant"
-        android:icon="@drawable/ic_text"
-        android:title="Quoc" />
+        android:icon="@drawable/baseline_home_24"
+        android:title="Home" />
     <item
         android:id="@+id/bottom_my_plants"
         android:icon="@drawable/ic_fav"

@@ -70,27 +70,27 @@ public class TreeListFragment extends Fragment {
 //                    }
 //                });
 
-        TextView textView = rootView.findViewById(R.id.ed_search);
-        textView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                try {
-                    treeAdapter.getFilter().filter(s);
-                } catch (Exception e){
-                Log.d("TAG", "onTextChanged: "+e.getMessage());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+//        TextView textView = rootView.findViewById(R.id.ed_search);
+//        textView.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                try {
+//                    treeAdapter.getFilter().filter(s);
+//                } catch (Exception e){
+//                Log.d("TAG", "onTextChanged: "+e.getMessage());
+//                }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
 
         RecyclerView recyclerView = rootView.findViewById(R.id.rcv_tree);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
