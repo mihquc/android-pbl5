@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/popupMenu"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <item
+        android:id="@+id/option1"
+        android:title="Tưới nước" />
+
+    <item
+        android:id="@+id/option2"
+        android:title="Tưới 100ml (quả chín quá)" />
+
+    <item
+        android:id="@+id/option3"
+        android:title="Tưới 200ml (quả non)" />
+
+    <item
+        android:id="@+id/option4"
+        android:title="Tưới 500ml (quả gần chín)" />
+
+    <item
+        android:id="@+id/option5"
+        android:title="Tưới 1000ml (quả chín)" />
+
+</menu>
