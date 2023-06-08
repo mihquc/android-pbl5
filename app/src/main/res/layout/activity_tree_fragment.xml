@@ -194,7 +194,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="27°C"
+                android:text="31°C"
                 android:textColor="@color/blue_300"
                 app:layout_constraintStart_toStartOf="@+id/tv_day_night"
                 app:layout_constraintTop_toBottomOf="@+id/tv_day_night" />
@@ -213,9 +213,9 @@
                 style="@style/common_text_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="29dp"
+                android:layout_marginStart="44dp"
                 android:layout_marginTop="20dp"
-                android:text="Độ ẩm không khí 60%"
+                android:text="Độ ẩm không khí 60"
                 android:textColor="@color/blue_300"
                 app:layout_constraintStart_toEndOf="@+id/iv_temperature"
                 app:layout_constraintTop_toBottomOf="@+id/tv_watering" />

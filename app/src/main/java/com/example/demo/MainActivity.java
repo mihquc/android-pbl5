@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 String imageUrl = snapshot.child("url").getValue(String.class);
+                System.out.println(imageUrl);
                 treeList.add(new Tree(i, imageUrl, "Cây Ớt", "Có quả", "", 37));
                 treeAdapter.notifyDataSetChanged();
                 i++;

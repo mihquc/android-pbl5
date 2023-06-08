@@ -22,7 +22,7 @@ import java.util.Calendar;
 
 public class DetailsActivity extends AppCompatActivity {
     private ActivityDetailsBinding binding;
-    private static final String ESP8266_IP_ADDRESS = "192.168.1.11";
+    private static final String ESP8266_IP_ADDRESS = "192.168.51.92";
     private boolean isWatering = false;
 
     @Override

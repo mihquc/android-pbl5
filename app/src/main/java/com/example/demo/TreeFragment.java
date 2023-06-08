@@ -34,15 +34,18 @@ import java.net.URL;
 import java.util.Calendar;
 
 public class TreeFragment extends Fragment {
-    private static final String ESP8266_IP_ADDRESS = "192.168.1.11";
+    private static final String ESP8266_IP_ADDRESS = "172.20.10.3";
     private ActivityTreeFragmentBinding binding;
     private Boolean isWatering = false;
+    private String lightSensor;
+    private int lightValue;
 
     @NonNull
     @Nullable
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = ActivityTreeFragmentBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+
 
 //        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 //        int Count = sharedPreferences.getInt("Count", 0);
@@ -73,7 +76,7 @@ public class TreeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     String imageUrl = childSnapshot.child("url").getValue(String.class);
-
+                    System.out.println(imageUrl);
                     Glide.with(view).load(imageUrl).into(binding.ivPhoto);
                     binding.cardView.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -135,13 +138,61 @@ public class TreeFragment extends Fragment {
                     try {
                         Thread.sleep(1000);  // Update every 1 second
                         String url = "http://" + ESP8266_IP_ADDRESS + "/sensor";
-                        new TreeFragment.HttpRequestTask().execute(url);
+                        String urlTemperature = "http://" + ESP8266_IP_ADDRESS + "/tempe";
+                        String urlHumidity = "http://" + ESP8266_IP_ADDRESS + "/humid";
+                        String urlLight = "http://" + ESP8266_IP_ADDRESS + "/light";
+                        new TreeFragment.HttpRequestTask().execute(url, urlTemperature, urlHumidity,urlLight);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
             }
         }).start();
+
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (!Thread.currentThread().isInterrupted()) {
+//                    try {
+//                        Thread.sleep(1000);  // Update every 1 second
+//                        String url = "http://" + ESP8266_IP_ADDRESS + "/light";
+//                        new TreeFragment.HttpRequestTask().execute(url);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }).start();
+//
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (!Thread.currentThread().isInterrupted()) {
+//                    try {
+//                        Thread.sleep(1000);  // Update every 1 second
+//                        String url = "http://" + ESP8266_IP_ADDRESS + "/tempe";
+//                        new TreeFragment.HttpRequestTask().execute(url);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }).start();
+//
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (!Thread.currentThread().isInterrupted()) {
+//                    try {
+//                        Thread.sleep(1000);  // Update every 1 second
+//                        String url = "http://" + ESP8266_IP_ADDRESS + "/humid";
+//                        new TreeFragment.HttpRequestTask().execute(url);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }).start();
     }
     private class HttpRequestTask extends AsyncTask<String, Void, String> {
         @Override
@@ -181,8 +232,41 @@ public class TreeFragment extends Fragment {
                     double humidity1 = 100 - (humidity * 100 / 1024);
                     binding.tvPercentHumidity.setText((int) Math.round(humidity1) + "%");
                     binding.pbHumidity.setProgress((int) Math.round(humidity1));
+                } if (result.startsWith("Light:")) {
+                    lightValue = Integer.parseInt(result.replace("Light:", "").trim());
+                } if (result.startsWith("Tempe:")) {
+                    String temSensor = result.replace("Tempe:", "").trim();
+                    binding.tvTemperature.setText(temSensor+"°C");
+                } if (result.startsWith("Humid:")) {
+                    String humSensor = result.replace("Humid:", "").trim();
+                    binding.tvHumidity.setText("Độ ẩm không khí "+humSensor+"%");
                 }
             }
+//            String[] lines = result.split("\n");
+//
+//            for (String line : lines) {
+//                if (line.startsWith("Moisture Level:")) {
+//                    String sensorValue = line.replace("Moisture Level:", "").trim();
+//                    int humidity = Integer.parseInt(sensorValue);
+//                    double humidity1 = 100 - (humidity * 100 / 1024);
+//                    binding.tvPercentHumidity.setText((int) Math.round(humidity1) + "%");
+//                    binding.pbHumidity.setProgress((int) Math.round(humidity1));
+//                } if (line.startsWith("Light:")) {
+//                    String sensorValue = line.replace("Light:", "").trim();
+//                    lightValue = Integer.parseInt(sensorValue);
+//                    // TODO: Xử lý giá trị cảm biến ánh sáng
+//                } if (line.startsWith("Tempe:")) {
+//                    String sensorValue = line.replace("Tempe:", "").trim();
+//                    double temperature = Double.parseDouble(sensorValue);
+//                    binding.tvTemperature.setText(temperature+"°C");
+//                } if (line.startsWith("Humid:")) {
+//                    String sensorValue = line.replace("Humid:", "").trim();
+//                    double humidity = Double.parseDouble(sensorValue);
+//                    // TODO: Xử lý giá trị độ ẩm
+//                    binding.tvHumidity.setText("Độ ẩm không khí "+humidity+"%");
+//                }
+//                // TODO: Xử lý các cảm biến khác (nếu có)
+//            }
         }
     }
 
@@ -190,6 +274,8 @@ public class TreeFragment extends Fragment {
         PopupMenu popupMenu = new PopupMenu(getContext(), view);
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.options_menu, popupMenu.getMenu());
+
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", getContext().MODE_PRIVATE);
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -199,7 +285,6 @@ public class TreeFragment extends Fragment {
                         if(!isWatering){
                             sendRequest("/on");
 
-                            SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", getContext().MODE_PRIVATE);
                             int Count = sharedPreferences.getInt("Count", 0);
                             Count += 1;
                             isWatering = true;
@@ -214,7 +299,6 @@ public class TreeFragment extends Fragment {
                         if(!isWatering){
                             sendRequest("/2seconds");
 
-                            SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", getContext().MODE_PRIVATE);
                             int Count = sharedPreferences.getInt("Count", 0);
                             Count += 1;
                             isWatering = true;
@@ -227,9 +311,8 @@ public class TreeFragment extends Fragment {
                         return true;
                     case R.id.option3:
                         if(!isWatering){
-                            sendRequest("/5seconds");
+                            sendRequest("/4seconds");
 
-                            SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", getContext().MODE_PRIVATE);
                             int Count = sharedPreferences.getInt("Count", 0);
                             Count += 1;
                             isWatering = true;
@@ -244,7 +327,6 @@ public class TreeFragment extends Fragment {
                         if(!isWatering){
                             sendRequest("/10seconds");
 
-                            SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", getContext().MODE_PRIVATE);
                             int Count = sharedPreferences.getInt("Count", 0);
                             Count += 1;
                             isWatering = true;
@@ -259,7 +341,6 @@ public class TreeFragment extends Fragment {
                         if(!isWatering){
                             sendRequest("/20seconds");
 
-                            SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", getContext().MODE_PRIVATE);
                             int Count = sharedPreferences.getInt("Count", 0);
                             Count += 1;
                             isWatering = true;
@@ -284,17 +365,26 @@ public class TreeFragment extends Fragment {
         super.onResume();
 
         Calendar calendar = Calendar.getInstance();
-        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+//        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
 
-        if (currentHour >= 6 && currentHour < 18) {
+        if(lightValue == 0){
             // Ban ngày
             binding.tvDayNight.setText("Ban ngày");
             binding.ivDayNight.setImageResource(R.drawable.baseline_wb_sunny_24);
-        } else {
+        } else if (lightValue == 1) {
             // Ban đêm
             binding.tvDayNight.setText("Ban đêm");
             binding.ivDayNight.setImageResource(R.drawable.baseline_dark_mode_24);
         }
+//        if (currentHour >= 6 && currentHour < 18) {
+//            // Ban ngày
+//            binding.tvDayNight.setText("Ban ngày");
+//            binding.ivDayNight.setImageResource(R.drawable.baseline_wb_sunny_24);
+//        } else {
+//            // Ban đêm
+//            binding.tvDayNight.setText("Ban đêm");
+//            binding.ivDayNight.setImageResource(R.drawable.baseline_dark_mode_24);
+//        }
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         int Count = sharedPreferences.getInt("Count", 0);
@@ -302,8 +392,8 @@ public class TreeFragment extends Fragment {
         long currentTime = System.currentTimeMillis();
         long oneDayInMillis = 24 * 60 * 60 * 1000;
 
-        calendar.set(Calendar.HOUR_OF_DAY, 16); // Đặt giờ là 0h (0 giờ)
-        calendar.set(Calendar.MINUTE, 35); // Đặt phút là 0
+        calendar.set(Calendar.HOUR_OF_DAY, 0); // Đặt giờ là 0h (0 giờ)
+        calendar.set(Calendar.MINUTE, 0); // Đặt phút là 0
         calendar.set(Calendar.SECOND, 0); // Đặt giây là 0
         calendar.set(Calendar.MILLISECOND, 0); // Đặt mili giây là 0
         long nextMidnightTime = calendar.getTimeInMillis() + oneDayInMillis;
