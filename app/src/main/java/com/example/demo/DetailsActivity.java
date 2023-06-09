@@ -1,6 +1,8 @@
 package com.example.demo;
 
 
+import static java.security.AccessController.getContext;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,7 +10,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
 
 import com.bumptech.glide.Glide;
 import com.example.demo.databinding.ActivityDetailsBinding;
@@ -97,19 +102,20 @@ public class DetailsActivity extends AppCompatActivity {
         binding.btnWatering.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!isWatering){
-                    sendRequest("/on");
-
-                    SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", v.getContext().MODE_PRIVATE);
-                    int Count = sharedPreferences.getInt("Count", 0);
-                    Count += 1;
-                    isWatering = true;
-                    binding.tvWateringTimes.setText(String.valueOf(Count)+" lần");
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putInt("Count", Count);
-//                    editor.putLong("lastWateringTime", System.currentTimeMillis());
-                    editor.apply();
-                }
+                showWateringOptions(v);
+//                if(!isWatering){
+//                    sendRequest("/on");
+//
+//                    SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", v.getContext().MODE_PRIVATE);
+//                    int Count = sharedPreferences.getInt("Count", 0);
+//                    Count += 1;
+//                    isWatering = true;
+//                    binding.tvWateringTimes.setText(String.valueOf(Count)+" lần");
+//                    SharedPreferences.Editor editor = sharedPreferences.edit();
+//                    editor.putInt("Count", Count);
+////                    editor.putLong("lastWateringTime", System.currentTimeMillis());
+//                    editor.apply();
+//                }
             }
         });
         binding.btnStopWatering.setOnClickListener(new View.OnClickListener() {
@@ -149,10 +155,13 @@ public class DetailsActivity extends AppCompatActivity {
             if (params.length == 0)
                 return null;
 
-            String urlString = params[0];
+            String urlString = params[0]; // ****
             StringBuilder result = new StringBuilder();
 
             try {
+//                for (String url1 : params){
+//
+//                }
                 URL url = new URL(urlString);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
@@ -209,8 +218,8 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
 
-        calendar.set(Calendar.HOUR_OF_DAY, 4); // Đặt giờ là 0h (0 giờ)
-        calendar.set(Calendar.MINUTE, 31); // Đặt phút là 0
+        calendar.set(Calendar.HOUR_OF_DAY, 0); // Đặt giờ là 0h (0 giờ)
+        calendar.set(Calendar.MINUTE, 0); // Đặt phút là 0
         calendar.set(Calendar.SECOND, 0); // Đặt giây là 0
         calendar.set(Calendar.MILLISECOND, 0); // Đặt mili giây là 0
         long nextMidnightTime = calendar.getTimeInMillis() + oneDayInMillis;
@@ -222,6 +231,95 @@ public class DetailsActivity extends AppCompatActivity {
 
             binding.tvWateringTimes.setText("0 lần");
         }
+    }
+    public void showWateringOptions(View view) {
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        MenuInflater inflater = DetailsActivity.this.getMenuInflater();
+        inflater.inflate(R.menu.options_menu, popupMenu.getMenu());
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", DetailsActivity.MODE_PRIVATE);
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.option1:
+                        if(!isWatering){
+                            sendRequest("/on");
+
+                            int Count = sharedPreferences.getInt("Count", 0);
+                            Count += 1;
+                            isWatering = true;
+                            binding.tvWateringTimes.setText(String.valueOf(Count)+" lần");
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putInt("Count", Count);
+//                    editor.putLong("lastWateringTime", System.currentTimeMillis());
+                            editor.apply();
+                        }
+                        return true;
+                    case R.id.option2:
+                        if(!isWatering){
+                            sendRequest("/2seconds");
+
+                            int Count = sharedPreferences.getInt("Count", 0);
+                            Count += 1;
+                            isWatering = true;
+                            binding.tvWateringTimes.setText(String.valueOf(Count)+" lần");
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putInt("Count", Count);
+//                    editor.putLong("lastWateringTime", System.currentTimeMillis());
+                            editor.apply();
+                        }
+                        return true;
+                    case R.id.option3:
+                        if(!isWatering){
+                            sendRequest("/4seconds");
+
+                            int Count = sharedPreferences.getInt("Count", 0);
+                            Count += 1;
+                            isWatering = true;
+                            binding.tvWateringTimes.setText(String.valueOf(Count)+" lần");
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putInt("Count", Count);
+//                    editor.putLong("lastWateringTime", System.currentTimeMillis());
+                            editor.apply();
+                        }
+                        return true;
+                    case R.id.option4:
+                        if(!isWatering){
+                            sendRequest("/10seconds");
+
+                            int Count = sharedPreferences.getInt("Count", 0);
+                            Count += 1;
+                            isWatering = true;
+                            binding.tvWateringTimes.setText(String.valueOf(Count)+" lần");
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putInt("Count", Count);
+//                    editor.putLong("lastWateringTime", System.currentTimeMillis());
+                            editor.apply();
+                        }
+                        return true;
+                    case R.id.option5:
+                        if(!isWatering){
+                            sendRequest("/20seconds");
+
+                            int Count = sharedPreferences.getInt("Count", 0);
+                            Count += 1;
+                            isWatering = true;
+                            binding.tvWateringTimes.setText(String.valueOf(Count)+" lần");
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putInt("Count", Count);
+//                    editor.putLong("lastWateringTime", System.currentTimeMillis());
+                            editor.apply();
+                        }
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        popupMenu.show();
     }
 
 }
